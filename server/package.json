@@ -1,0 +1,12 @@
+{
+  "name": "last-ghoul-standing-lobby",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lightweight online room service for Last Ghoul Standing",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
