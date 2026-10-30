@@ -185,7 +185,10 @@ async function handle(request, response) {
     player.state = await readBody(request);
     player.lastSeenAt = Date.now();
     room.updatedAt = Date.now();
-    send(response, 200, { ok: true });
+    const snapshot = publicRoom(room);
+    const ownSnapshot = snapshot.players.find((entry) => entry.id === player.id);
+    ownSnapshot.damageEvents = player.damageEvents.splice(0);
+    send(response, 200, { room: snapshot, playerId: player.id });
     return;
   }
 
