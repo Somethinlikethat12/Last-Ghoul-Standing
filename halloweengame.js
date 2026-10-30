@@ -608,7 +608,7 @@ function sendNetworkDamage(target, amount, attacker) {
 }
 
 function publishLocalPlayerState() {
-  if (!online.active || !player || !gameRunning) return Promise.resolve();
+  if (!online.active || !player || !gameRunning) return Promise.resolve(null);
   return onlineRequest(`/api/rooms/${online.roomCode}/players/${online.playerId}`, {
     method: "POST",
     body: JSON.stringify({
@@ -621,16 +621,17 @@ function publishLocalPlayerState() {
 async function pollOnlineRoom() {
   if (!online.active) return;
   try {
-    if (gameRunning) await publishLocalPlayerState();
-    const result = await onlineRequest(
-      `/api/rooms/${online.roomCode}?playerId=${encodeURIComponent(online.playerId)}`
-    );
-    renderOnlineRoom(result.room);
+    const result = gameRunning
+      ? await publishLocalPlayerState()
+      : await onlineRequest(
+          `/api/rooms/${online.roomCode}?playerId=${encodeURIComponent(online.playerId)}`
+        );
+    if (result?.room) renderOnlineRoom(result.room);
     if (gameRunning) onlineStatus(`Connected · room ${online.roomCode} · ${online.playerCount} real player(s)`);
   } catch (error) {
     onlineStatus(`Multiplayer connection problem: ${error.message}`);
   } finally {
-    if (online.active) online.pollTimer = window.setTimeout(pollOnlineRoom, 650);
+    if (online.active) online.pollTimer = window.setTimeout(pollOnlineRoom, 250);
   }
 }
 
