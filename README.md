@@ -7,7 +7,7 @@ this separate Node.js service.
 
 1. Push the game folder to a GitHub repository.
 2. In Render, create a **Web Service** connected to that repository.
-3. Set **Root Directory** to `9999 stuff/halloween game/multiplayer-server`
+3. Set **Root Directory** to `server`
    (or the path to this directory relative to the repository root).
 4. Choose **Node** as the runtime. Set the build command to `npm install` and
    the start command to `npm start`. There are no external dependencies.
@@ -17,7 +17,7 @@ this separate Node.js service.
    game's **Online Multiplayer** panel, enter the Render service URL (without
    `/health`) and create or join a room.
 
-For local testing, run `npm start` in this directory and enter
+For local testing, run `npm start` from the `server/` directory and enter
 `http://localhost:3000` as the server URL.
 
 ## Current limits
